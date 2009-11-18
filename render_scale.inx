@@ -14,23 +14,23 @@
 	<item value="0">0°</item>
 	<item value="90">90°</item>
   </param>
-  <param name="scaleres" type="int" _gui-text="Scale resolution (units per marker):" min="1" max="32000">100</param>
-  <param name="scaleheight" type="int" _gui-text="Scale Height (unit):" min="1" max="32000">100</param>
+  <param name="scaleres" type="int" _gui-text="Scale resolution (units per marker):" min="1" max="32000">1</param>
+  <param name="scaleheight" type="int" _gui-text="Scale Height (unit):" min="1" max="32000">7</param>
   <param name="desc_labels" type="description">Labels</param>
-  <param name="fontsize" type="int" _gui-text="Fontsize (pixel):" min="1" max="32000">50</param>
+  <param name="fontsize" type="int" _gui-text="Fontsize (pixel):" min="1" max="32000">12</param>
   <param name="desc_global" type="description">Suffix currently doesn't support several special characters</param>
   <param name="suffix" type="string" _gui-text="Label suffix:"></param>
-  <param name="labeloffseth" type="int" _gui-text="Label offset horizontal (pixel):" min="-32000" max="32000"></param>
-  <param name="labeloffsetv" type="int" _gui-text="Label offset vertical (pixel):" min="-32000" max="32000"></param>
+  <param name="labeloffseth" type="int" _gui-text="Label offset horizontal (pixel):" min="-32000" max="32000">0</param>
+  <param name="labeloffsetv" type="int" _gui-text="Label offset vertical (pixel):" min="-32000" max="32000">10</param>
   <param name="desc_markers" type="description">Markers</param>
   <param name="mark0" type="int" _gui-text="Div of labeled marker :" min="1" max="32000">10</param>
-  <param name="mark0str" type="float" _gui-text="Strength of labeled marker (pixel):" min="0.0001" max="32000">10.0</param>
+  <param name="mark0str" type="float" _gui-text="Strength of labeled marker (pixel):" min="0.0001" max="32000">2.0</param>
   <param name="mark1" type="int" _gui-text="Div of bold marker:" min="1" max="32000">5</param>
-  <param name="mark1str" type="float" _gui-text="Strength of bold marker (pixel):" min="0.0001" max="32000">5.0</param>
+  <param name="mark1str" type="float" _gui-text="Strength of bold marker (pixel):" min="0.0001" max="32000">2.0</param>
   <param name="mark1wid" type="int" _gui-text="Width of bold marker (%):" min="0" max="100">75</param>
-  <param name="mark2" type="int" _gui-text="Div of standard marker:" min="1" max="32000">1</param>
-  <param name="mark2str" type="float" _gui-text="Strength of standard marker (pixel):" min="0.0001" max="32000">1.0</param>
-  <param name="mark2wid" type="int" _gui-text="Width of bold marker (%):" min="0" max="100">50</param>
+  <param name="mark2" type="int" _gui-text="Div of default marker:" min="1" max="32000">1</param>
+  <param name="mark2str" type="float" _gui-text="Strength of default marker (pixel):" min="0.0001" max="32000">1.0</param>
+  <param name="mark2wid" type="int" _gui-text="Width of default marker (%):" min="0" max="100">50</param>
   <param name="desc_unit" type="description">Units</param>
   <param name="unit" type="enum" _gui-text="Unit:">
 	<item value="mm">mm</item>
