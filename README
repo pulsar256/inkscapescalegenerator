@@ -1,0 +1,16 @@
+- INSTALL
+
+On Linux put the content of the archive in ~./inkscape/extensions/.
+On Windows unzip the contents to 'Inkscape\share\extensions\' inside your programs folder.
+
+- COMMENT
+Tested on Inkscape 0.46
+Contact me at brathering82@gmail.com
+
+- Changelog
+
+18.11.2009
+	default values updated, so there is something visable after first install
+
+17.11.2009
+	initial release
