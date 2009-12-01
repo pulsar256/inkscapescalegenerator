@@ -48,15 +48,34 @@ class ScaleGen(inkex.Effect):
           help = 'Measure to...')
         self.OptionParser.add_option('-c', '--reverse', action = 'store',
           type = 'string', dest = 'reverse', default = 'false',
-          help = 'Reverse order:')             
+          help = 'Reverse order:')
+        self.OptionParser.add_option('-p', '--type', action = 'store',
+          type = 'string', dest = 'type', default = 'false',
+          help = 'Type:')      
+        self.OptionParser.add_option('', '--scalerad', action = 'store',
+          type = 'float', dest = 'scalerad', default = '100',
+          help = 'dfg')
+        self.OptionParser.add_option('', '--scaleradcount', action = 'store',
+          type = 'float', dest = 'scaleradcount', default = '100',
+          help = 'dfg')
+        self.OptionParser.add_option('', '--scaleradbegin', action = 'store',
+          type = 'float', dest = 'scaleradbegin', default = '100',
+          help = 'fdg')                         
+        self.OptionParser.add_option('', '--labeldist', action = 'store',
+          type = 'float', dest = 'labeldist', default = '5.0',
+          help = 'fdg') 
+        self.OptionParser.add_option('', '--radmark', action = 'store',
+          type = 'string', dest = 'radmark', default = 'True',
+          help = 'fdg')           
+                    
         self.OptionParser.add_option('', '--rotate', action = 'store',
           type = 'string', dest = 'rotate', default = '0',
           help = 'Rotate:')                   
         self.OptionParser.add_option('-b', '--scaleres', action = 'store',
-          type = 'int', dest = 'scaleres', default = '100',
+          type = 'float', dest = 'scaleres', default = '100',
           help = 'Measure resolution:')                   
         self.OptionParser.add_option('-g', '--scaleheight', action = 'store',
-          type = 'int', dest = 'scaleheight', default = '100',
+          type = 'float', dest = 'scaleheight', default = '100',
           help = 'Height of scale:')
         self.OptionParser.add_option('-s', '--fontsize', action = 'store',
           type = 'int', dest = 'fontsize', default = '16',
@@ -65,14 +84,14 @@ class ScaleGen(inkex.Effect):
           type = 'string', dest = 'suffix', default = '',
           help = 'Suffix:')
 
-	# label offset
+	"""	# label offset
         self.OptionParser.add_option('-x', '--labeloffseth', action = 'store',
           type = 'int', dest = 'labeloffseth', default = '45',
           help = 'Label offset h:')   
         self.OptionParser.add_option('-y', '--labeloffsetv', action = 'store',
           type = 'int', dest = 'labeloffsetv', default = '45',
           help = 'Label offset v:') 
-          
+	"""          
         # marker div
         self.OptionParser.add_option('-m', '--mark0', action = 'store',
           type = 'int', dest = 'mark0', default = '10',
@@ -84,7 +103,7 @@ class ScaleGen(inkex.Effect):
           type = 'int', dest = 'mark2', default = '1',
           help = 'Div of standard marker:')
           
-        # marker strength        
+	"""        # marker strength  
         self.OptionParser.add_option('-p', '--mark0str', action = 'store',
           type = 'float', dest = 'mark0str', default = '10.0',
           help = 'Strength of labeled marker:')
@@ -94,7 +113,7 @@ class ScaleGen(inkex.Effect):
         self.OptionParser.add_option('-r', '--mark2str', action = 'store',
           type = 'float', dest = 'mark2str', default = '1.0',
           help = 'Strength of standard marker:')
-          
+	"""          
         # marker width
         self.OptionParser.add_option('-w', '--mark1wid', action = 'store',
           type = 'int', dest = 'mark1wid', default = '75',
@@ -105,7 +124,10 @@ class ScaleGen(inkex.Effect):
                              
         self.OptionParser.add_option('-u', '--unit', action = 'store',
           type = 'string', dest = 'unit', default = 'mm',
-          help = 'Unit:')                                
+          help = 'Unit:')    
+        self.OptionParser.add_option('', '--tab', action = 'store',
+          type = 'string', dest = 'tab', default = 'global',
+          help = '')                            
 
     def addLabel(self, i, x, y, grp, fontsize):
     	res = self.options.scaleres
@@ -118,8 +140,10 @@ class ScaleGen(inkex.Effect):
         text.set('style', formatStyle(style))
 #        text.set('x', str(inkex.unittouu(str(x)+self.options.unit)+self.options.labeloffseth))
 #        text.set('y', str(inkex.unittouu(str(y)+self.options.unit)+self.options.labeloffsetv))
-        text.set('x', str(float(x)+int(self.options.labeloffseth)))
-        text.set('y', str(float(y)+int(self.options.labeloffsetv)))        
+        #text.set('x', str(float(x)+int(self.options.labeloffseth)))
+        #text.set('y', str(float(y)+int(self.options.labeloffsetv)))        
+        text.set('x', str(float(x)))
+        text.set('y', str(float(y)))        
         grp.append(text)
         
     def addLine(self, i, scalefrom, scaleto, grp, grpLabel, type=2):
@@ -139,8 +163,8 @@ class ScaleGen(inkex.Effect):
  		n = i
 		
     	if type==0:
-	    	line_style   = { 'stroke': 'red',
-        	             'stroke-width': str(self.options.mark0str) }
+	    	line_style   = { 'stroke': 'black',
+        	             'stroke-width': '2' }
         	x1 = 0
         	y1 = i*res
         	x2 = self.options.scaleheight
@@ -150,7 +174,7 @@ class ScaleGen(inkex.Effect):
         	
     	if type==1:
 	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': str(self.options.mark1str) }
+        	             'stroke-width': '1' }
         	x1 = 0
         	y1 = i*res
         	x2 = self.options.scaleheight*0.01*self.options.mark1wid
@@ -158,7 +182,7 @@ class ScaleGen(inkex.Effect):
         	
     	if type==2:
 	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': str(self.options.mark2str) }
+        	             'stroke-width': '1' }
         	x1 = 0
         	y1 = i*res
         	x2 = self.options.scaleheight*0.01*self.options.mark2wid
@@ -184,6 +208,80 @@ class ScaleGen(inkex.Effect):
                     'd' : 'M '+x1+','+y1+' L '+x2+','+y2}
 
     	line = inkex.etree.SubElement(grp, inkex.addNS('path','svg'), line_attribs )
+    	
+    	
+    def addLineRad(self, i, scalefrom, scaleto, grp, grpLabel, type=2):
+    	height = self.options.scaleheight
+    	reverse = self.options.reverse
+    	radbegin = self.options.scaleradbegin
+    	radcount = self.options.scaleradcount    	
+    	unit = self.options.unit    	
+    	fontsize = self.options.fontsize
+    	rad = self.options.scalerad
+    	labeldist = self.options.labeldist
+    	label = False
+	# Count absolut count for evaluation of increment 
+	count = 0
+	for n in range(scalefrom, scaleto):
+		count += 1
+	countstatus = 0
+	for n in range(scalefrom, i):
+		countstatus += 1
+		
+    	if reverse=='true':
+    		counter = 0
+		for n in range(scalefrom, i):
+			counter += 1
+ 		n = scaleto-counter-1
+ 	else:
+ 		n = i
+ 	inc = radcount / (count-1)
+ 	irad = countstatus*inc
+ 	irad = radbegin+irad	
+		
+    	if type==0:
+	    	line_style   = { 'stroke': 'black',
+        	             'stroke-width': '2' }
+        	x1 = math.sin(math.radians(irad))*rad
+        	y1 = math.cos(math.radians(irad))*rad
+        	x2 = math.sin(math.radians(irad))*(rad-height)
+        	y2 = math.cos(math.radians(irad))*(rad-height)
+        	
+        	label = True
+        	
+    	if type==1:
+	    	line_style   = { 'stroke': 'black',
+        	             'stroke-width': '1' }
+        	x1 = math.sin(math.radians(irad))*rad
+        	y1 = math.cos(math.radians(irad))*rad
+        	x2 = math.sin(math.radians(irad))*(rad-height*self.options.mark1wid*0.01)
+        	y2 = math.cos(math.radians(irad))*(rad-height*self.options.mark1wid*0.01)
+        	
+    	if type==2:
+	    	line_style   = { 'stroke': 'black',
+        	             'stroke-width': '1' }
+        	x1 = math.sin(math.radians(irad))*rad
+        	y1 = math.cos(math.radians(irad))*rad
+        	x2 = math.sin(math.radians(irad))*(rad-height*self.options.mark2wid*0.01)
+        	y2 = math.cos(math.radians(irad))*(rad-height*self.options.mark2wid*0.01)
+
+        x2label = math.sin(math.radians(irad))*(rad-labeldist-height*self.options.mark2wid*0.01)
+        y2label = math.cos(math.radians(irad))*(rad-labeldist-height*self.options.mark2wid*0.01)        	
+	# use user unit
+       	x1 = inkex.unittouu(str(x1)+unit) 
+       	y1 = inkex.unittouu(str(y1)+unit) 
+       	x2 = inkex.unittouu(str(x2)+unit) 
+       	y2 = inkex.unittouu(str(y2)+unit)
+       	x2label = inkex.unittouu(str(x2label)+unit)
+       	y2label = inkex.unittouu(str(y2label)+unit)
+       	
+    	if label==True:
+		self.addLabel(n , x2label, y2label, grpLabel, fontsize)
+    	line_attribs = {'style' : formatStyle(line_style),
+                    inkex.addNS('label','inkscape') : 'name',
+                    'd' : 'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2)}
+
+    	line = inkex.etree.SubElement(grp, inkex.addNS('path','svg'), line_attribs )    	
    	
 
     def effect(self):
@@ -194,6 +292,7 @@ class ScaleGen(inkex.Effect):
         mark0 = self.options.mark0
         mark1 = self.options.mark1
         mark2 = self.options.mark2
+        scaletype = self.options.type
 
         # Get access to main SVG document element and get its dimensions.
         svg = self.document.getroot()
@@ -223,6 +322,10 @@ class ScaleGen(inkex.Effect):
         grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
                            'transform':grp_transform }
 	grpMark2 = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)	
+	grp_name = 'Radial center'
+        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
+                           'transform':grp_transform }
+	grpRadMark = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)	
 
 	# to allow positive to negative counts
         if scalefrom < scaleto:
@@ -233,21 +336,58 @@ class ScaleGen(inkex.Effect):
         	scalefrom = temp
  	
 	skip = 0
-        for i in range(scalefrom, scaleto):
-        	if (i % mark0)==0:
-        		div = 0		# This a the labeled marker
-        		grpMark = grpMark0
-        	elif (i % mark1)==0:
-        		div = 1 	# the medium marker
-        		grpMark = grpMark1
-        	elif (i % mark2)==0:
-        		div = 2 	# the default marker
-        		grpMark = grpMark2
-        	else:
-        		skip=1	# Don't print a marker this time	        		
-        	if skip==0:
-        		self.addLine(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
-        	skip = 0
+	if scaletype == 'line':
+	        for i in range(scalefrom, scaleto):
+        		if (i % mark0)==0:
+        			div = 0		# This a the labeled marker
+        			grpMark = grpMark0
+        		elif (i % mark1)==0:
+        			div = 1 	# the medium marker
+        			grpMark = grpMark1
+        		elif (i % mark2)==0:
+        			div = 2 	# the default marker
+        			grpMark = grpMark2
+        		else:
+        			skip=1	# Don't print a marker this time	        		
+        		if skip==0:
+        			self.addLine(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
+        		skip = 0
+        elif scaletype == 'rad':		
+ 		for i in range(scalefrom, scaleto):
+        		if (i % mark0)==0:
+        			div = 0		# This a the labeled marker
+        			grpMark = grpMark0
+        		elif (i % mark1)==0:
+        			div = 1 	# the medium marker
+        			grpMark = grpMark1
+        		elif (i % mark2)==0:
+        			div = 2 	# the default marker
+        			grpMark = grpMark2
+        		else:
+        			skip=1	# Don't print a marker this time	        		
+        		if skip==0:
+        			self.addLineRad(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
+        		skip = 0
+        	if self.options.radmark=='true':
+        		#centerx = centre.x
+        		#centery = centre.y
+        		line_style   = { 'stroke': 'black',
+        	             'stroke-width': '1' }
+        		line_attribs = {'style' : formatStyle(line_style),
+                    			inkex.addNS('label','inkscape') : 'name',
+                    			#'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
+                    			'd' : 'M '+str(-10)+','+str(-10)+' L '+str(10)+','+str(10)}
+    			line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
+    			
+    			line_attribs = {'style' : formatStyle(line_style),
+                    			inkex.addNS('label','inkscape') : 'name',
+                    			#'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
+                    			'd' : 'M '+str(-10)+','+str(10)+' L '+str(10)+','+str(-10)}
+                    	line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
+        		
+ 			
+        	
+        
 
 
 # Create effect instance and apply it.
