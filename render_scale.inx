@@ -34,7 +34,7 @@
 	  <param name="scaleradbegin" type="float" _gui-text="Start (deg):" min="-360.0" max="360.0">240</param>
 	  <param name="scaleradcount" type="float" _gui-text="Count (deg):" min="-360.0" max="360.0">-120</param>
 	  <param name="desc_unit" type="description">it's hard to position the label afterwards. So use this:</param>
-	  <param name="labeldist" type="float" _gui-text="Label offset (unit):" min="-9999.9" max="9999.9">8.5</param>
+	  <param name="labeldist" type="float" _gui-text="Label offset (unit):" min="-9999.9" max="9999.9">-4.8</param>
 	  <param name="radmark" type="boolean" _gui-text="Mark the origin?">true</param>
 	</page>
 	<page name="unitopt" _gui-text="Unit">
