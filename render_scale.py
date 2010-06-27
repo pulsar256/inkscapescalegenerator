@@ -25,7 +25,6 @@ sys.path.append('/usr/share/inkscape/extensions') # or another path, as necessar
 import inkex
 from simplestyle import *
 
-
 class ScaleGen(inkex.Effect):
     """
     Example Inkscape effect extension.
@@ -132,8 +131,9 @@ class ScaleGen(inkex.Effect):
     def addLabel(self, i, x, y, grp, fontsize):
     	res = self.options.scaleres
     	pos = i*res + fontsize/2
+    	suffix = self.options.suffix.decode('utf-8') # fix ° (degree char)
     	text = inkex.etree.SubElement(grp, inkex.addNS('text','svg'))
-    	text.text = str(i)+self.options.suffix.encode("utf8")
+    	text.text = str(i)+suffix
     	#rotate = self.options.rotate
     	fs = str(fontsize)
         style = {'text-align' : 'center', 'text-anchor': 'middle', 'font-size': fs}
