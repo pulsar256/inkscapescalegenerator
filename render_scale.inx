@@ -36,6 +36,8 @@
 	  <param name="desc_unit" type="description">it's hard to position the label afterwards. So use this:</param>
 	  <param name="labeldist" type="float" _gui-text="Label offset (unit):" min="-9999.9" max="9999.9">-4.8</param>
 	  <param name="radmark" type="boolean" _gui-text="Mark the origin?">true</param>
+  	  <param name="insidetf" type="boolean" _gui-text="inside scale?">true</param>
+  	  <param name="isdangle" type="boolean" _gui-text="dangling labels?">false</param>
 	</page>
 	<page name="unitopt" _gui-text="Unit">
 	  <param name="desc_unit" type="description">Units</param>

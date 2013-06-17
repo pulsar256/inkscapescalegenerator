@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 '''
-Copyright (C) 2009 Sascha Poczihoski, sascha@junktech.de
+Copyright (C) 
+2009 Sascha Poczihoski, sascha@junktech.de
+original author
+
+2013 Roger Jeurissen, roger@acfd-consultancy.nl
+dangling labels and inside/outside scale features
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -67,7 +72,13 @@ class ScaleGen(inkex.Effect):
         self.OptionParser.add_option('', '--radmark', action = 'store',
           type = 'string', dest = 'radmark', default = 'True',
           help = 'fdg')           
-                    
+        self.OptionParser.add_option('', '--insidetf', action = 'store',
+          type = 'string', dest = 'insidetf', default = 'True',
+          help = 'fdg')           
+        self.OptionParser.add_option('', '--isdangle', action = 'store',
+          type = 'string', dest = 'isdangle', default = 'False',
+          help = 'fdg')  
+                              
         self.OptionParser.add_option('', '--rotate', action = 'store',
           type = 'string', dest = 'rotate', default = '0',
           help = 'Rotate:')                   
@@ -129,16 +140,25 @@ class ScaleGen(inkex.Effect):
           type = 'string', dest = 'tab', default = 'global',
           help = '')                            
 
-    def addLabel(self, i, x, y, grp, fontsize):
+    def addLabel(self, i, x, y, grp, fontsize, phi = 0.0):
     	res = self.options.scaleres
     	pos = i*res + fontsize/2
     	suffix = self.options.suffix.decode('utf-8') # fix ° (degree char)
     	text = inkex.etree.SubElement(grp, inkex.addNS('text','svg'))
     	text.text = str(i)+suffix
     	#rotate = self.options.rotate
+    	cosphi=math.cos(math.radians(phi))
+    	sinphi=math.sin(math.radians(phi))
+    	a1 = str(cosphi)
+    	a2 = str(-sinphi)
+    	a3 = str(sinphi)
+    	a4 = str(cosphi)
+    	a5 = str((1-cosphi)*x-sinphi*y)
+    	a6 = str(sinphi*x+(1-cosphi)*y)
     	fs = str(fontsize)
         style = {'text-align' : 'center', 'text-anchor': 'middle', 'font-size': fs}
         text.set('style', formatStyle(style))
+        text.set('transform', 'matrix({},{},{},{},{},{})'.format(a1,a2,a3,a4,a5,a6))        
 #        text.set('x', str(inkex.unittouu(str(x)+self.options.unit)+self.options.labeloffseth))
 #        text.set('y', str(inkex.unittouu(str(y)+self.options.unit)+self.options.labeloffsetv))
         #text.set('x', str(float(x)+int(self.options.labeloffseth)))
@@ -211,7 +231,7 @@ class ScaleGen(inkex.Effect):
     	line = inkex.etree.SubElement(grp, inkex.addNS('path','svg'), line_attribs )
     	
     	
-    def addLineRad(self, i, scalefrom, scaleto, grp, grpLabel, type=2):
+    def addLineRad(self, i, scalefrom, scaleto, grp, grpLabel, type=2, insidetf=True, isdangle=True):
     	height = self.options.scaleheight
     	reverse = self.options.reverse
     	radbegin = self.options.scaleradbegin
@@ -240,13 +260,22 @@ class ScaleGen(inkex.Effect):
  	irad = countstatus*inc
  	irad = radbegin+irad	
 		
+ 	dangle = 0
+   	if isdangle=='true':
+          dangle = 1    
+  
+ 	inside = -1
+ 	if insidetf=='true':
+          inside = 1
+          
+
     	if type==0:
 	    	line_style   = { 'stroke': 'black',
         	             'stroke-width': '2' }
         	x1 = math.sin(math.radians(irad))*rad
         	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-height)
-        	y2 = math.cos(math.radians(irad))*(rad-height)
+        	x2 = math.sin(math.radians(irad))*(rad-inside*height)
+        	y2 = math.cos(math.radians(irad))*(rad-inside*height)
         	
         	label = True
         	
@@ -255,19 +284,19 @@ class ScaleGen(inkex.Effect):
         	             'stroke-width': '1' }
         	x1 = math.sin(math.radians(irad))*rad
         	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-height*self.options.mark1wid*0.01)
-        	y2 = math.cos(math.radians(irad))*(rad-height*self.options.mark1wid*0.01)
+        	x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
+        	y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
         	
     	if type==2:
 	    	line_style   = { 'stroke': 'black',
         	             'stroke-width': '1' }
         	x1 = math.sin(math.radians(irad))*rad
         	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-height*self.options.mark2wid*0.01)
-        	y2 = math.cos(math.radians(irad))*(rad-height*self.options.mark2wid*0.01)
+        	x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
+        	y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
 
-        x2label = math.sin(math.radians(irad))*(rad-labeldist-height*self.options.mark2wid*0.01)
-        y2label = math.cos(math.radians(irad))*(rad-labeldist-height*self.options.mark2wid*0.01)        	
+        x2label = math.sin(math.radians(irad))*(rad-inside*(-labeldist+height*self.options.mark2wid*0.01))
+        y2label = math.cos(math.radians(irad))*(rad-inside*(-labeldist+height*self.options.mark2wid*0.01))         	
 	# use user unit
        	x1 = inkex.unittouu(str(x1)+unit) 
        	y1 = inkex.unittouu(str(y1)+unit) 
@@ -277,7 +306,7 @@ class ScaleGen(inkex.Effect):
        	y2label = inkex.unittouu(str(y2label)+unit)
        	
     	if label==True:
-		self.addLabel(n , x2label, y2label, grpLabel, fontsize)
+		self.addLabel(n , x2label, y2label, grpLabel, fontsize,dangle*irad)
     	line_attribs = {'style' : formatStyle(line_style),
                     inkex.addNS('label','inkscape') : 'name',
                     'd' : 'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2)}
@@ -294,6 +323,8 @@ class ScaleGen(inkex.Effect):
         mark1 = self.options.mark1
         mark2 = self.options.mark2
         scaletype = self.options.type
+        insidetf = self.options.insidetf
+        isdangle = self.options.isdangle
 
         # Get access to main SVG document element and get its dimensions.
         svg = self.document.getroot()
@@ -367,7 +398,7 @@ class ScaleGen(inkex.Effect):
         		else:
         			skip=1	# Don't print a marker this time	        		
         		if skip==0:
-        			self.addLineRad(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
+        			self.addLineRad(i, scalefrom, scaleto, grpMark, grpLabel, div, insidetf, isdangle) # addLabel is called from inside
         		skip = 0
         	if self.options.radmark=='true':
         		#centerx = centre.x
