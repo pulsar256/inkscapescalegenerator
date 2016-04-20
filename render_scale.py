@@ -23,11 +23,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 TODO
-	- fix bug: special chars in suffix
+        - fix bug: special chars in suffix
 '''
 
 import sys, math
-sys.path.append('/usr/share/inkscape/extensions') # or another path, as necessary
+# sys.path.append('/usr/share/inkscape/extensions') # or another path, as necessary
 import inkex
 from simplestyle import *
 
@@ -46,276 +46,262 @@ class ScaleGen(inkex.Effect):
 
         # Define string option "--what" with "-w" shortcut and default value "World".
         self.OptionParser.add_option('-f', '--scalefrom', action = 'store',
-          type = 'int', dest = 'scalefrom', default = '0',
-          help = 'Measure from...')
+              type = 'int', dest = 'scalefrom', default = '0',
+              help = 'Measure from...')
         self.OptionParser.add_option('-t', '--scaleto', action = 'store',
-          type = 'int', dest = 'scaleto', default = '20',
-          help = 'Measure to...')
+              type = 'int', dest = 'scaleto', default = '20',
+              help = 'Measure to...')
         self.OptionParser.add_option('-c', '--reverse', action = 'store',
-          type = 'string', dest = 'reverse', default = 'false',
-          help = 'Reverse order:')
+              type = 'string', dest = 'reverse', default = 'false',
+              help = 'Reverse order:')
         self.OptionParser.add_option('-p', '--type', action = 'store',
-          type = 'string', dest = 'type', default = 'false',
-          help = 'Type:')      
+              type = 'string', dest = 'type', default = 'false',
+              help = 'Type:')      
         self.OptionParser.add_option('', '--scalerad', action = 'store',
-          type = 'float', dest = 'scalerad', default = '100',
-          help = 'dfg')
+              type = 'float', dest = 'scalerad', default = '100',
+              help = 'dfg')
         self.OptionParser.add_option('', '--scaleradcount', action = 'store',
-          type = 'float', dest = 'scaleradcount', default = '100',
-          help = 'dfg')
+              type = 'float', dest = 'scaleradcount', default = '100',
+              help = 'dfg')
         self.OptionParser.add_option('', '--scaleradbegin', action = 'store',
-          type = 'float', dest = 'scaleradbegin', default = '100',
-          help = 'fdg')                         
+              type = 'float', dest = 'scaleradbegin', default = '100',
+              help = 'fdg')                         
         self.OptionParser.add_option('', '--labeldist', action = 'store',
-          type = 'float', dest = 'labeldist', default = '5.0',
-          help = 'fdg') 
+              type = 'float', dest = 'labeldist', default = '5.0',
+              help = 'fdg')
+        self.OptionParser.add_option('', '--labeldistflat', action = 'store',
+              type = 'float', dest = 'labeldistflat', default = '5.0',
+              help = 'fdg')
         self.OptionParser.add_option('', '--radmark', action = 'store',
-          type = 'string', dest = 'radmark', default = 'True',
-          help = 'fdg')           
+              type = 'string', dest = 'radmark', default = 'True',
+              help = 'fdg')           
         self.OptionParser.add_option('', '--insidetf', action = 'store',
-          type = 'string', dest = 'insidetf', default = 'True',
-          help = 'fdg')           
+              type = 'string', dest = 'insidetf', default = 'True',
+              help = 'fdg')           
         self.OptionParser.add_option('', '--isdangle', action = 'store',
-          type = 'string', dest = 'isdangle', default = 'False',
-          help = 'fdg')  
+              type = 'string', dest = 'isdangle', default = 'False',
+              help = 'fdg')  
                               
         self.OptionParser.add_option('', '--rotate', action = 'store',
-          type = 'string', dest = 'rotate', default = '0',
-          help = 'Rotate:')                   
+              type = 'string', dest = 'rotate', default = '0',
+              help = 'Rotate:')                   
         self.OptionParser.add_option('-b', '--scaleres', action = 'store',
-          type = 'float', dest = 'scaleres', default = '100',
-          help = 'Measure resolution:')                   
+              type = 'float', dest = 'scaleres', default = '100',
+              help = 'Measure resolution:')                   
         self.OptionParser.add_option('-g', '--scaleheight', action = 'store',
-          type = 'float', dest = 'scaleheight', default = '100',
-          help = 'Height of scale:')
+              type = 'float', dest = 'scaleheight', default = '100',
+              help = 'Height of scale:')
         self.OptionParser.add_option('-s', '--fontsize', action = 'store',
-          type = 'int', dest = 'fontsize', default = '16',
-          help = 'Font Size:')
+              type = 'int', dest = 'fontsize', default = '16',
+              help = 'Font Size:')
         self.OptionParser.add_option('-i', '--suffix', action = 'store',
-          type = 'string', dest = 'suffix', default = '',
-          help = 'Suffix:')
+              type = 'string', dest = 'suffix', default = '',
+              help = 'Suffix:')
 
-	"""	# label offset
+        """     # label offset
         self.OptionParser.add_option('-x', '--labeloffseth', action = 'store',
-          type = 'int', dest = 'labeloffseth', default = '45',
-          help = 'Label offset h:')   
+              type = 'int', dest = 'labeloffseth', default = '45',
+              help = 'Label offset h:')   
         self.OptionParser.add_option('-y', '--labeloffsetv', action = 'store',
-          type = 'int', dest = 'labeloffsetv', default = '45',
-          help = 'Label offset v:') 
-	"""          
+              type = 'int', dest = 'labeloffsetv', default = '45',
+              help = 'Label offset v:') 
+        """          
         # marker div
         self.OptionParser.add_option('-m', '--mark0', action = 'store',
-          type = 'int', dest = 'mark0', default = '10',
-          help = 'Div of labeled marker:')
+              type = 'int', dest = 'mark0', default = '10',
+              help = 'Div of labeled marker:')
         self.OptionParser.add_option('-n', '--mark1', action = 'store',
-          type = 'int', dest = 'mark1', default = '5',
-          help = 'Div of bold marker:')
+              type = 'int', dest = 'mark1', default = '5',
+              help = 'Div of bold marker:')
         self.OptionParser.add_option('-o', '--mark2', action = 'store',
-          type = 'int', dest = 'mark2', default = '1',
-          help = 'Div of standard marker:')
+              type = 'int', dest = 'mark2', default = '1',
+              help = 'Div of standard marker:')
           
-	"""        # marker strength  
+        """        # marker strength  
         self.OptionParser.add_option('-p', '--mark0str', action = 'store',
-          type = 'float', dest = 'mark0str', default = '10.0',
-          help = 'Strength of labeled marker:')
+              type = 'float', dest = 'mark0str', default = '10.0',
+              help = 'Strength of labeled marker:')
         self.OptionParser.add_option('-q', '--mark1str', action = 'store',
-          type = 'float', dest = 'mark1str', default = '5.0',
-          help = 'Strength of bold marker:')
+              type = 'float', dest = 'mark1str', default = '5.0',
+              help = 'Strength of bold marker:')
         self.OptionParser.add_option('-r', '--mark2str', action = 'store',
-          type = 'float', dest = 'mark2str', default = '1.0',
-          help = 'Strength of standard marker:')
-	"""          
+              type = 'float', dest = 'mark2str', default = '1.0',
+              help = 'Strength of standard marker:')
+        """          
         # marker width
         self.OptionParser.add_option('-w', '--mark1wid', action = 'store',
-          type = 'int', dest = 'mark1wid', default = '75',
-          help = 'Width of bold marker (\%):')
+              type = 'int', dest = 'mark1wid', default = '75',
+              help = 'Width of bold marker (\%):')
         self.OptionParser.add_option('-v', '--mark2wid', action = 'store',
-          type = 'int', dest = 'mark2wid', default = '50',
-          help = 'Width of standard marker (\%):')       
+              type = 'int', dest = 'mark2wid', default = '50',
+              help = 'Width of standard marker (\%):')       
                              
         self.OptionParser.add_option('-u', '--unit', action = 'store',
-          type = 'string', dest = 'unit', default = 'mm',
-          help = 'Unit:')    
+              type = 'string', dest = 'unit', default = 'mm',
+              help = 'Unit:')    
         self.OptionParser.add_option('', '--tab', action = 'store',
-          type = 'string', dest = 'tab', default = 'global',
-          help = '')                            
+              type = 'string', dest = 'tab', default = 'global',
+              help = '')                            
 
-    def addLabel(self, i, x, y, grp, fontsize, phi = 0.0):
-    	res = self.options.scaleres
-    	pos = i*res + fontsize/2
-    	suffix = self.options.suffix.decode('utf-8') # fix ° (degree char)
-    	text = inkex.etree.SubElement(grp, inkex.addNS('text','svg'))
-    	text.text = str(i)+suffix
-    	#rotate = self.options.rotate
-    	cosphi=math.cos(math.radians(phi))
-    	sinphi=math.sin(math.radians(phi))
-    	a1 = str(cosphi)
-    	a2 = str(-sinphi)
-    	a3 = str(sinphi)
-    	a4 = str(cosphi)
-    	a5 = str((1-cosphi)*x-sinphi*y)
-    	a6 = str(sinphi*x+(1-cosphi)*y)
-    	fs = str(fontsize)
+    def addLabel(self, i, x, y, parent, fontsize, phi = 0.0):
+        res = self.options.scaleres
+        pos = i*res + fontsize/2
+        suffix = self.options.suffix.decode('utf-8') # fix ° (degree char)
+        text = inkex.etree.SubElement(parent, inkex.addNS('text','svg'))
+        text.text = str(i)+suffix
+        #rotate = self.options.rotate
+        cosphi=math.cos(math.radians(phi))
+        sinphi=math.sin(math.radians(phi))
+        a1 = str(cosphi)
+        a2 = str(-sinphi)
+        a3 = str(sinphi)
+        a4 = str(cosphi)
+        a5 = str((1-cosphi)*x - sinphi*y)
+        a6 = str(sinphi*x+(1-cosphi)*y)
+        fs = str(fontsize)
+        # inkex.debug("%s,%s,%s"%(x,y,a5))
         style = {'text-align' : 'center', 'text-anchor': 'middle', 'font-size': fs}
         text.set('style', formatStyle(style))
-        text.set('transform', 'matrix({},{},{},{},{},{})'.format(a1,a2,a3,a4,a5,a6))        
-#        text.set('x', str(inkex.unittouu(str(x)+self.options.unit)+self.options.labeloffseth))
-#        text.set('y', str(inkex.unittouu(str(y)+self.options.unit)+self.options.labeloffsetv))
+        text.set('transform', 'matrix({0},{1},{2},{3},{4},{5})'.format(a1,a2,a3,a4,a5,a6))        
+#        text.set('x', str(self.unittouu(str(x)+self.options.unit)+self.options.labeloffseth))
+#        text.set('y', str(self.unittouu(str(y)+self.options.unit)+self.options.labeloffsetv))
         #text.set('x', str(float(x)+int(self.options.labeloffseth)))
         #text.set('y', str(float(y)+int(self.options.labeloffsetv)))        
         text.set('x', str(float(x)))
         text.set('y', str(float(y)))        
-        grp.append(text)
+        parent.append(text)
         
-    def addLine(self, i, scalefrom, scaleto, grp, grpLabel, type=2):
-    	reverse = self.options.reverse
-    	rotate = self.options.rotate
-    	unit = self.options.unit    	
-    	fontsize = self.options.fontsize
-    	res = self.options.scaleres
-    	label = False
-    	if reverse=='true':
-    		# Count absolut i for labeling
-    		counter = 0
- 		for n in range(scalefrom, i):
- 			counter += 1
- 		n = scaleto-counter-1
- 	else:
- 		n = i
-		
-    	if type==0:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '2' }
-        	x1 = 0
-        	y1 = i*res
-        	x2 = self.options.scaleheight
-        	y2 = i*res
-        	
-        	label = True
-        	
-    	if type==1:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '1' }
-        	x1 = 0
-        	y1 = i*res
-        	x2 = self.options.scaleheight*0.01*self.options.mark1wid
-        	y2 = i*res
-        	
-    	if type==2:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '1' }
-        	x1 = 0
-        	y1 = i*res
-        	x2 = self.options.scaleheight*0.01*self.options.mark2wid
-        	y2 = i*res    	      
+    def addLine(self, i, scalefrom, scaleto, parent, grpLabel, type=2):
+        reverse = self.options.reverse
+        rotate = self.options.rotate
+        unit = self.options.unit     
+        fontsize = self.options.fontsize
+        res = self.options.scaleres
+        labeldist = self.options.labeldistflat
+        label = False
+        if reverse=='true':
+            # Count absolut i for labeling
+            counter = 0
+            for n in range(scalefrom, i):
+                counter += 1
+            n = scaleto-counter-1
+        else:
+            n = i
 
-       	x1 = str(inkex.unittouu(str(x1)+unit) )
-       	y1 = str(inkex.unittouu(str(y1)+unit) )
-       	x2 = str(inkex.unittouu(str(x2)+unit) )
-       	y2 = str(inkex.unittouu(str(y2)+unit) )
-       	if rotate=='90':
-       		tx = x1
-	       	x1 = y1
-       		y1 = tx
-       			
-       		tx = x2
-       		x2 = y2
-       		y2 = tx
-       	
-    	if label==True:
-		self.addLabel(n , x2, y2, grpLabel, fontsize)
-    	line_attribs = {'style' : formatStyle(line_style),
-                    inkex.addNS('label','inkscape') : 'name',
-                    'd' : 'M '+x1+','+y1+' L '+x2+','+y2}
+        if type==0:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '2' }
+            x1 = 0
+            y1 = i*res
+            x2 = self.options.scaleheight
+            y2 = i*res
+            
+            label = True
+                
+        if type==1:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '1' }
+            x1 = 0
+            y1 = i*res
+            x2 = self.options.scaleheight*0.01*self.options.mark1wid
+            y2 = i*res
+                
+        if type==2:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '1' }
+            x1 = 0
+            y1 = i*res
+            x2 = self.options.scaleheight*0.01*self.options.mark2wid
+            y2 = i*res            
 
-    	line = inkex.etree.SubElement(grp, inkex.addNS('path','svg'), line_attribs )
-    	
-    	
-    def addLineRad(self, i, scalefrom, scaleto, grp, grpLabel, type=2, insidetf=True, isdangle=True):
-    	height = self.options.scaleheight
-    	reverse = self.options.reverse
-    	radbegin = self.options.scaleradbegin
-    	radcount = self.options.scaleradcount    	
-    	unit = self.options.unit    	
-    	fontsize = self.options.fontsize
-    	rad = self.options.scalerad
-    	labeldist = self.options.labeldist
-    	label = False
-	# Count absolut count for evaluation of increment 
-	count = 0
-	for n in range(scalefrom, scaleto):
-		count += 1
-	countstatus = 0
-	for n in range(scalefrom, i):
-		countstatus += 1
-		
-    	if reverse=='true':
-    		counter = 0
-		for n in range(scalefrom, i):
-			counter += 1
- 		n = scaleto-counter-1
- 	else:
- 		n = i
- 	inc = radcount / (count-1)
- 	irad = countstatus*inc
- 	irad = radbegin+irad	
-		
- 	dangle = 0
-   	if isdangle=='true':
-          dangle = 1    
-  
- 	inside = -1
- 	if insidetf=='true':
-          inside = 1
-          
+        x1 = self.unittouu(str(x1)+unit) 
+        y1 = self.unittouu(str(y1)+unit) 
+        x2 = self.unittouu(str(x2)+unit) 
+        y2 = self.unittouu(str(y2)+unit)
+        texty = y2
+        textx = x2 + labeldist
+        if rotate=='90':
+            x1, y1 = y1, x1
+            x2, y2 = y2, x2
+            textx, texty = texty, textx
+        
+        if label==True:
+            self.addLabel(n , textx, texty, grpLabel, fontsize)
+        line_attribs = {'style' : formatStyle(line_style),
+                                  inkex.addNS('label','inkscape') : 'name',
+                                  'd' : 'M %s,%s L %s,%s' %(x1, y1, x2, y2)}
 
-    	if type==0:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '2' }
-        	x1 = math.sin(math.radians(irad))*rad
-        	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-inside*height)
-        	y2 = math.cos(math.radians(irad))*(rad-inside*height)
-        	
-        	label = True
-        	
-    	if type==1:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '1' }
-        	x1 = math.sin(math.radians(irad))*rad
-        	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
-        	y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
-        	
-    	if type==2:
-	    	line_style   = { 'stroke': 'black',
-        	             'stroke-width': '1' }
-        	x1 = math.sin(math.radians(irad))*rad
-        	y1 = math.cos(math.radians(irad))*rad
-        	x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
-        	y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
+        line = inkex.etree.SubElement(parent, inkex.addNS('path','svg'), line_attribs )
+        
+        
+    def addLineRad(self, i, scalefrom, scaleto, parent, grpLabel, type=2, insidetf=True, isdangle=True):
+        height = self.options.scaleheight
+        reverse = self.options.reverse
+        radbegin = self.options.scaleradbegin
+        radcount = self.options.scaleradcount           
+        unit = self.options.unit        
+        fontsize = self.options.fontsize
+        rad = self.options.scalerad
+        labeldist = self.options.labeldist
+        label = False
+        # Determine absolute count for evaluation of increment
+        count = scaleto - scalefrom
+        countstatus = i - scalefrom
+        if reverse=='true':
+            n = scaleto - countstatus - 1
+        else:
+            n = i
+        inc = radcount / (count-1)
+        irad = radbegin + countstatus*inc
+        
+        dangle = 1 if isdangle=='true' else 0
+        inside = 1 if insidetf=='true' else -1
 
-        x2label = math.sin(math.radians(irad))*(rad-inside*(-labeldist+height*self.options.mark2wid*0.01))
-        y2label = math.cos(math.radians(irad))*(rad-inside*(-labeldist+height*self.options.mark2wid*0.01))         	
-	# use user unit
-       	x1 = inkex.unittouu(str(x1)+unit) 
-       	y1 = inkex.unittouu(str(y1)+unit) 
-       	x2 = inkex.unittouu(str(x2)+unit) 
-       	y2 = inkex.unittouu(str(y2)+unit)
-       	x2label = inkex.unittouu(str(x2label)+unit)
-       	y2label = inkex.unittouu(str(y2label)+unit)
-       	
-    	if label==True:
-		self.addLabel(n , x2label, y2label, grpLabel, fontsize,dangle*irad)
-    	line_attribs = {'style' : formatStyle(line_style),
-                    inkex.addNS('label','inkscape') : 'name',
-                    'd' : 'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2)}
+        if type==0:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '2' }
+            x1 = math.sin(math.radians(irad))*rad
+            y1 = math.cos(math.radians(irad))*rad
+            x2 = math.sin(math.radians(irad))*(rad-inside*height)
+            y2 = math.cos(math.radians(irad))*(rad-inside*height)
+            label = True
 
-    	line = inkex.etree.SubElement(grp, inkex.addNS('path','svg'), line_attribs )    	
-   	
+        if type==1:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '1' }
+            x1 = math.sin(math.radians(irad))*rad
+            y1 = math.cos(math.radians(irad))*rad
+            x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
+            y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark1wid*0.01)
+
+        if type==2:
+            line_style = { 'stroke': 'black',
+                           'stroke-width': '1' }
+            x1 = math.sin(math.radians(irad))*rad
+            y1 = math.cos(math.radians(irad))*rad
+            x2 = math.sin(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
+            y2 = math.cos(math.radians(irad))*(rad-inside*height*self.options.mark2wid*0.01)
+
+        x2label = math.sin(math.radians(irad))*(rad-inside*(-labeldist + height*self.options.mark2wid*0.01))
+        y2label = math.cos(math.radians(irad))*(rad-inside*(-labeldist + height*self.options.mark2wid*0.01))              
+        # use user unit
+        x1 = self.unittouu(str(x1)+unit) 
+        y1 = self.unittouu(str(y1)+unit) 
+        x2 = self.unittouu(str(x2)+unit) 
+        y2 = self.unittouu(str(y2)+unit)
+        x2label = self.unittouu(str(x2label)+unit)
+        y2label = self.unittouu(str(y2label)+unit)
+        
+        if label==True:
+            self.addLabel(n , x2label, y2label, grpLabel, fontsize,dangle*irad)
+        line_attribs = {'style' : formatStyle(line_style),
+                                  inkex.addNS('label','inkscape') : 'name',
+                                  'd' : 'M '+str(x1)+','+str(y1)+' L '+str(x2)+','+str(y2)}
+
+        line = inkex.etree.SubElement(parent, inkex.addNS('path','svg'), line_attribs )            
+        
 
     def effect(self):
-    	
         scalefrom = self.options.scalefrom
         scaleto = self.options.scaleto
         scaleheight = self.options.scaleheight
@@ -330,96 +316,82 @@ class ScaleGen(inkex.Effect):
         svg = self.document.getroot()
 
         # Again, there are two ways to get the attributes:
-        width  = inkex.unittouu(svg.get('width'))
-        height = inkex.unittouu(svg.get('height'))
+        width  = self.unittouu(svg.get('width'))
+        height = self.unittouu(svg.get('height'))
         
         # Create new group
         centre = self.view_center   #Put in in the centre of the current view
-	grp_transform = 'translate' + str( centre )
+        grp_transform = 'translate' + str(centre)
+        label = "Numeric_scale %s %s" %(scalefrom, scaleto)
+        parent = inkex.etree.SubElement(svg, 'g', {inkex.addNS('label','inkscape'):label,
+                                                   'transform':grp_transform })
+        grp_attribs = {inkex.addNS('label','inkscape'):'Scale Labels','transform':'translate(0,0)' }
+        grpLabel = inkex.etree.SubElement(parent, 'g', grp_attribs)
+        grp_attribs = {inkex.addNS('label','inkscape'):'Scale Mark labeled', 'transform':'translate(0,0)' }
+        grpMark0 = inkex.etree.SubElement(parent, 'g', grp_attribs)
+        grp_attribs = {inkex.addNS('label','inkscape'):'Scale Mark medium', 'transform':'translate(0,0)' }
+        grpMark1 = inkex.etree.SubElement(parent, 'g', grp_attribs) 
+        grp_attribs = {inkex.addNS('label','inkscape'):'Scale Mark default', 'transform':'translate(0,0)' }
+        grpMark2 = inkex.etree.SubElement(parent, 'g', grp_attribs) 
+        grp_attribs = {inkex.addNS('label','inkscape'):'Radial center', 'transform':'translate(0,0)' }
+        grpRadMark = inkex.etree.SubElement(parent, 'g', grp_attribs)       
 
-        grp_name = 'Scale Labels'
-        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
-                           'transform':grp_transform }
-	grpLabel = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-		
-	grp_name = 'Scale Mark labeled'
-        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
-                           'transform':grp_transform }
-	grpMark0 = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)
-	grp_name = 'Scale Mark medium'
-        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
-                           'transform':grp_transform }
-	grpMark1 = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)	
-	grp_name = 'Scale Mark default'
-        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
-                           'transform':grp_transform }
-	grpMark2 = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)	
-	grp_name = 'Radial center'
-        grp_attribs = {inkex.addNS('label','inkscape'):grp_name,
-                           'transform':grp_transform }
-	grpRadMark = inkex.etree.SubElement(self.current_layer, 'g', grp_attribs)	
-
-	# to allow positive to negative counts
+        # to allow positive to negative counts
         if scalefrom < scaleto:
-        	scaleto += 1
+            scaleto += 1
         else:
-        	temp = scaleto
-        	scaleto = scalefrom+1
-        	scalefrom = temp
- 	
-	skip = 0
-	if scaletype == 'line':
-	        for i in range(scalefrom, scaleto):
-        		if (i % mark0)==0:
-        			div = 0		# This a the labeled marker
-        			grpMark = grpMark0
-        		elif (i % mark1)==0:
-        			div = 1 	# the medium marker
-        			grpMark = grpMark1
-        		elif (i % mark2)==0:
-        			div = 2 	# the default marker
-        			grpMark = grpMark2
-        		else:
-        			skip=1	# Don't print a marker this time	        		
-        		if skip==0:
-        			self.addLine(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
-        		skip = 0
-        elif scaletype == 'rad':		
- 		for i in range(scalefrom, scaleto):
-        		if (i % mark0)==0:
-        			div = 0		# This a the labeled marker
-        			grpMark = grpMark0
-        		elif (i % mark1)==0:
-        			div = 1 	# the medium marker
-        			grpMark = grpMark1
-        		elif (i % mark2)==0:
-        			div = 2 	# the default marker
-        			grpMark = grpMark2
-        		else:
-        			skip=1	# Don't print a marker this time	        		
-        		if skip==0:
-        			self.addLineRad(i, scalefrom, scaleto, grpMark, grpLabel, div, insidetf, isdangle) # addLabel is called from inside
-        		skip = 0
-        	if self.options.radmark=='true':
-        		#centerx = centre.x
-        		#centery = centre.y
-        		line_style   = { 'stroke': 'black',
-        	             'stroke-width': '1' }
-        		line_attribs = {'style' : formatStyle(line_style),
-                    			inkex.addNS('label','inkscape') : 'name',
-                    			#'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
-                    			'd' : 'M '+str(-10)+','+str(-10)+' L '+str(10)+','+str(10)}
-    			line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
-    			
-    			line_attribs = {'style' : formatStyle(line_style),
-                    			inkex.addNS('label','inkscape') : 'name',
-                    			#'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
-                    			'd' : 'M '+str(-10)+','+str(10)+' L '+str(10)+','+str(-10)}
-                    	line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
-        		
- 			
-        	
+            temp = scaleto
+            scaleto = scalefrom+1
+            scalefrom = temp
         
+        skip = 0
+        if scaletype == 'line':
+            for i in range(scalefrom, scaleto):
+                if (i % mark0)==0:
+                    div = 0         # This is the labeled marker
+                    grpMark = grpMark0
+                elif (i % mark1)==0:
+                    div = 1         # the medium marker
+                    grpMark = grpMark1
+                elif (i % mark2)==0:
+                    div = 2         # the default marker
+                    grpMark = grpMark2
+                else:
+                    skip=1  # Don't print a marker this time                                
+                if skip==0:
+                    self.addLine(i, scalefrom, scaleto, grpMark, grpLabel, div) # addLabel is called from inside
+                skip = 0
+        elif scaletype == 'rad':                
+            for i in range(scalefrom, scaleto):
+                if (i % mark0)==0:
+                    div = 0         # This is the labeled marker
+                    grpMark = grpMark0
+                elif (i % mark1)==0:
+                    div = 1         # the medium marker
+                    grpMark = grpMark1
+                elif (i % mark2)==0:
+                    div = 2         # the default marker
+                    grpMark = grpMark2
+                else:
+                    skip=1  # Don't print a marker this time                                
+                if skip==0:
+                    self.addLineRad(i, scalefrom, scaleto, grpMark, grpLabel, div, insidetf, isdangle) # addLabel is called from inside
+                skip = 0
+            if self.options.radmark=='true':
+                #centerx = centre.x
+                #centery = centre.y
+                line_style = { 'stroke': 'black',
+                               'stroke-width': '1' }
+                line_attribs = {'style' : formatStyle(line_style),
+                                          inkex.addNS('label','inkscape') : 'name',
+                                          #'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
+                                          'd' : 'M -10,-10 L 10,10'}
+                line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
+                line_attribs = {'style' : formatStyle(line_style),
+                                          inkex.addNS('label','inkscape') : 'name',
+                                          #'d' : 'M '+str(centerx)+','+str(centery)+' L '+str(centerx+10)+','+str(centery+10)}
+                                          'd' : 'M -10,10 L 10,-10'}
+                line = inkex.etree.SubElement(grpRadMark, inkex.addNS('path','svg'), line_attribs )
 
 
 # Create effect instance and apply it.

@@ -2,10 +2,10 @@
 
 Put "render_scale.inx" and "render_scale.py" in your Inkscape extension directory.
 On Linux:   "~/.config/inkscape/extensions/"
-On Windows: "Inkscape\share\extensions\" (inside your programs folder)
+On Windows: "&appdata%/inkscape/extensions"
 
 - COMMENT
-Tested on Inkscape 0.48
+Tested on Inkscape 0.91
 Contact me at brathering82@gmail.com
 
 - Known bugs
@@ -13,6 +13,9 @@ Contact me at brathering82@gmail.com
 	suffix doesn't support several special chars
 
 - Changelog
+21.04.2016
+	Updated to 0.91
+	Minor UI tweaks, grouping.
 10.07.2014
 	updated the install packages with the changes made by Roger Jeurissen
 27.06.2010
@@ -25,9 +28,7 @@ Contact me at brathering82@gmail.com
 01.12.2009
 	added tabs for ui
 	added circular scales
-
 18.11.2009
 	default values updated, so there is something visible after first install
-
 17.11.2009
 	initial release
