@@ -14,12 +14,12 @@
         <_option value="rad">Circular</_option>
       </param>
       <param name="scaleheight" type="float" _gui-text="Scale Height (unit):" min="1" max="32000">5.0</param>
-      <param name="unit" type="enum" _gui-text="Unit">
-        <item value="mm">mm</item>
-        <item value="cm">cm</item>
-        <item value="in">inch</item>
-        <item value="px">pixel</item>
-        <item value="pt">point</item>
+      <param name="unit" type="optiongroup" appearance="minimal" _gui-text="Unit">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="in">inch</option>
+        <option value="px">pixel</option>
+        <option value="pt">point</option>
       </param>
     </page>
     <page name="line" _gui-text="Line">
